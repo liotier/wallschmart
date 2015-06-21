@@ -1,0 +1,22 @@
+entities !
+perl -MHTML::Entities -ne 'print encode_entities($_)' /tmp/subor.txt
+
+
+http://www.ratp.fr/horaires/fr/ratp/bus/prochains_passages/PP/B178/178_163_189/A
+div id="prochains_passages"
+www.ratp.fr
+
+http://www.transilien.com/gare/COURBEVOIE-8738220
+table class="etat_trafic"
+www.transilien.com
+
+gm convert animation.gif target.png
+
+
+- Build display image:
+montage image1.png image2.png imag3.png montage.png
+- Add "now playing" caption:
+convert montage.png label:'Author - title' -gravity Center -append montage_now_playing.png
+- Display in framebuffer:
+fbi -noverbose montage_now_playing.png
+

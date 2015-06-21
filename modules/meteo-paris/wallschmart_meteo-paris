@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Script conventional name is wallschmart_modulename
+selfname=`basename "$0" | sed s/wallschmart_//`
+#rm -f "$selfname".png "$selfname"_raw.html "$selfname"_ISO-8859-15.html
+
+#wget -q -O "$selfname"_raw.html http://www."$selfname".com
+
+# wkhtmltoimage produces humongous files, so
+# let's only let him render what we actually want
+xmllint --encode utf-8 --html --xpath ' ( //link[@rel = "stylesheet"] )' --htmlout --format "$selfname"_raw.html 2> /dev/null > "$selfname".html
+xmllint --encode utf-8 --html --xpath ' ( //div[@id = "prevision"] ) [1]' --htmlout --format "$selfname"_raw.html 2> /dev/null >> "$selfname".html
+
+# Stupid wkhtmltoimage believes that relative links are local filesystem,
+# so we have to absolute them before handing the HTML to him
+ex -V1 "$selfname".html <<-EOF
+  %s,'//,'http://,ge 
+  %s,"//,"http://,ge 
+  %s,'/,'http://www.meteo-paris.com/,ge
+  %s,"/,"http://www.meteo-paris.com/,ge
+  wq " Update changes and quit.
+EOF
+
+# By default, wkhtmltoimage expect ISO-8859-1
+# 'wkhtmltoimage --encoding utf-8' should make this step unnecessary...
+iconv -f UTF-8 -t ISO-8859-15 < "$selfname".html > "$selfname"_ISO-8859-15.html
+
+# Debian's wkhtmltoimage won't run without an xserver
+# so let's use xvfb-run to make him believe there is one
+xvfb-run wkhtmltoimage --width 1280 --format PNG --crop-w 589 "$selfname"_ISO-8859-15.html ../../output/"$selfname".png
