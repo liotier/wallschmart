@@ -3,7 +3,7 @@
 # Script conventional name is wallschmart_modulename
 selfname=`basename "$0" | sed s/wallschmart_//`
 
-rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html
+rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html "$selfname".png "$selfname"_crop1.png "$selfname"_crop2.png
 
 wget -q -O "$selfname"_raw.html http://www.transilien.com/gare/COURBEVOIE-8738220
 
@@ -28,6 +28,13 @@ iconv -f UTF-8 -t ISO-8859-15 < "$selfname".html > "$selfname"_ISO-8859-15.html
 
 # Debian's wkhtmltoimage won't run without an xserver
 # so let's use xvfb-run to make him believe there is one
-xvfb-run wkhtmltoimage --width 600 --format PNG "$selfname"_ISO-8859-15.html ../../output/"$selfname".png
+xvfb-run wkhtmltoimage --width 600 --format PNG "$selfname"_ISO-8859-15.html "$selfname".png
 
-rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html
+# I want to remove a useless column from the rendered table
+# but I'm too incompetent to produce a xpath selection one-liner to do it upstream
+# so let's hackishly cut'n'paste the render into the desired product
+convert transilien-courbevoie.png -crop 416x295+0+0 -repage x295 "$selfname"_crop1.png
+convert transilien-courbevoie.png -crop 92x295+508+0 -repage x295 "$selfname"_crop2.png
+montage -geometry +0+0 transilien-courbevoie_crop1.png transilien-courbevoie_crop2.png ../../output/"$selfname".png
+
+rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html "$selfname".png "$selfname"_crop1.png "$selfname"_crop2.png
