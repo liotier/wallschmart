@@ -9,10 +9,10 @@ wget -q -O "$selfname"_raw.html \
 	--user-agent="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 14.9; rv:32.0) Gecko/20150101 Firefox/32.0"  \
 	http://www.ratp.fr/horaires/fr/ratp/bus/prochains_passages/PP/B178/178_163_189/A
 
+# The source page is quite messy - I've given up hope of rendering an extract using wkhtmltoimage
+# so I'll just select the relevant table's xpath and stick it into HTML boilerplate
 cat ratp-bus178-marceau_header.html > "$selfname".html 
-
 xmllint --encode utf-8 --html --xpath ' //*/table/tbody/tr ' --htmlout ratp-bus178-marceau_raw.html >> "$selfname".html
-
 cat ratp-bus178-marceau_footer.html >> "$selfname".html
 
 # By default, wkhtmltoimage expect ISO-8859-1
