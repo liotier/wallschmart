@@ -1,6 +1,6 @@
 Wallschmart
 ======
-Wallschmart fetches pages to render them as images. I wrote it to produce images suitable to display in a connected digital picture frame as ghetto domestic signage.
+Wallschmart fetches pages to render them as images. I wrote it to produce images suitable to display in a connected digital picture frame (actually a Raspberry Pi with an elderly monitor savec from a trash heap) as ghetto domestic signage.
 
 This is a personal project that scratches my own itch... Therefore much hardcoded argumentation. Well - maybe someone will find it useful anyway...
 
@@ -21,6 +21,8 @@ Checkout this wherever you want. You might typically wish to run /wallschmart fr
 /wallschmart is the orchestration script that successively runs modules and the publication script.
 
 Each module is self-contained in its directory in the /modules directory. For test purposes, you may cd to a module's directory and run its wallschmart_$modulename script.
+
+Example output at http://www.ruwenzori.net/wallschmart/
 
 ## Roadmap
 
