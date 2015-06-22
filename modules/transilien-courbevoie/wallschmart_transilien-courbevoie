@@ -5,24 +5,20 @@ selfname=`basename "$0" | sed s/wallschmart_//`
 
 rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html
 
-wget -q -O "$selfname"_raw.html \
-        --user-agent="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 14.9; rv:32.0) Gecko/20150101 Firefox/32.0"  \
-	http://www.meteo-paris.com
+wget -q -O "$selfname"_raw.html http://www.transilien.com/gare/COURBEVOIE-8738220
 
 # wkhtmltoimage produces humongous files, so
 # let's only let him render what we actually want
-# First, don't forget the stylesheets
 xmllint --encode utf-8 --html --xpath ' ( //link[@rel = "stylesheet"] )' --htmlout --format "$selfname"_raw.html 2> /dev/null > "$selfname".html
-# Then select the actual data - along with the URL, this is the most important variable between modules
-xmllint --encode utf-8 --html --xpath ' ( //div[@id = "prevision"] ) [1]' --htmlout --format "$selfname"_raw.html 2> /dev/null >> "$selfname".html
+xmllint --encode utf-8 --html --xpath ' ( //table[@class = "etat_trafic"] ) [1]' --htmlout --format "$selfname"_raw.html 2> /dev/null >> "$selfname".html
 
 # Stupid wkhtmltoimage believes that relative links are local filesystem,
 # so we have to absolute them before handing the HTML to him
 ex -V1 "$selfname".html <<-EOF
   %s,'//,'http://,ge 
   %s,"//,"http://,ge 
-  %s,'/,'http://www.meteo-paris.com/,ge
-  %s,"/,"http://www.meteo-paris.com/,ge
+  %s,'/,'http://www.transilien.fr/,ge
+  %s,"/,"http://www.transilien.fr/,ge
   wq " Update changes and quit.
 EOF
 
@@ -32,7 +28,6 @@ iconv -f UTF-8 -t ISO-8859-15 < "$selfname".html > "$selfname"_ISO-8859-15.html
 
 # Debian's wkhtmltoimage won't run without an xserver
 # so let's use xvfb-run to make him believe there is one
-xvfb-run wkhtmltoimage --width 1280 --format PNG --crop-w 589 "$selfname"_ISO-8859-15.html ../../output/"$selfname".png
+xvfb-run wkhtmltoimage --width 600 --format PNG "$selfname"_ISO-8859-15.html ../../output/"$selfname".png
 
 rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html
-

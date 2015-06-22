@@ -1,2 +1,2 @@
 #!/bin/bash
-scp output/*.png jim@kivu.grabeuh.com:/home/jim/www/www.ruwenzori.net/wallschmart
+scp /home/jm/wallschmart/output/*.png jim@kivu.grabeuh.com:/home/jim/www/www.ruwenzori.net/wallschmart

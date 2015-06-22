@@ -1,11 +1,3 @@
-entities !
-perl -MHTML::Entities -ne 'print encode_entities($_)' /tmp/subor.txt
-
-
-http://www.ratp.fr/horaires/fr/ratp/bus/prochains_passages/PP/B178/178_163_189/A
-div id="prochains_passages"
-www.ratp.fr
-
 http://www.transilien.com/gare/COURBEVOIE-8738220
 table class="etat_trafic"
 www.transilien.com

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Script conventional name is wallschmart_modulename
+selfname=`basename "$0" | sed s/wallschmart_//`
+
+rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html
+
+wget -q -O "$selfname"_raw.html \
+	--user-agent="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 14.9; rv:32.0) Gecko/20150101 Firefox/32.0"  \
+	http://www.ratp.fr/horaires/fr/ratp/bus/prochains_passages/PP/B178/178_163_189/A
+
+cat ratp-bus178-marceau_header.html > "$selfname".html 
+
+xmllint --encode utf-8 --html --xpath ' //*/table/tbody/tr ' --htmlout ratp-bus178-marceau_raw.html >> "$selfname".html
+
+cat ratp-bus178-marceau_footer.html >> "$selfname".html
+
+# By default, wkhtmltoimage expect ISO-8859-1
+# 'wkhtmltoimage --encoding utf-8' should make this step unnecessary...
+iconv -f UTF-8 -t ISO-8859-15 < "$selfname".html > "$selfname"_ISO-8859-15.html
+
+# Debian's wkhtmltoimage won't run without an xserver
+# so let's use xvfb-run to make him believe there is one
+xvfb-run wkhtmltoimage --width 1024 --format PNG --crop-w 384 "$selfname"_ISO-8859-15.html ../../output/"$selfname".png
+
+rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html
