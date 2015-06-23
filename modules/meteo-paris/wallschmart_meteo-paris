@@ -23,6 +23,7 @@ ex -V1 "$selfname".html <<-EOF
   %s,"//,"http://,ge 
   %s,'/,'http://www.meteo-paris.com/,ge
   %s,"/,"http://www.meteo-paris.com/,ge
+# Also, some characters require escaping as HTML entities lest wkhtmltoimage chokes on them
   %s/’/\&#8217/g
   wq " Update changes and quit.
 EOF
