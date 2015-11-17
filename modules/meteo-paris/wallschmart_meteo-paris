@@ -3,6 +3,9 @@
 # Script conventional name is wallschmart_modulename
 selfname=`basename "$0" | sed s/wallschmart_//`
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
 rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html
 
 wget -q -O "$selfname"_raw.html \
@@ -25,6 +28,8 @@ ex -V1 "$selfname".html <<-EOF
   %s,"/,"http://www.meteo-paris.com/,ge
 # Also, some characters require escaping as HTML entities lest wkhtmltoimage chokes on them
   %s/’/\&#8217/g
+  %s/‘/\&#8217/g
+  %s/–/-/g
   wq " Update changes and quit.
 EOF
 
@@ -34,7 +39,7 @@ iconv -f UTF-8 -t ISO-8859-15 < "$selfname".html > "$selfname"_ISO-8859-15.html
 
 # Debian's wkhtmltoimage won't run without an xserver
 # so let's use xvfb-run to make him believe there is one
-xvfb-run wkhtmltoimage --width 1280 --format PNG --crop-w 589 "$selfname"_ISO-8859-15.html ../../output/"$selfname".png
+xvfb-run wkhtmltoimage --width 1280 --format PNG --crop-w 780 "$selfname"_ISO-8859-15.html ../../output/"$selfname".png
 
 rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html
 

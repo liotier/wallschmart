@@ -1,4 +1,7 @@
-./modules/transilien-courbevoie/wallschmart_ratp-transilien-courbevoie
-./modules/meteo-paris/wallschmart_meteo-paris
-./modules/ratp-bus178-marceau/wallschmart_ratp-bus178-marceau
-./publish
+date
+/home/jm/wallschmart/modules/meteo-paris/wallschmart_meteo-paris-previsions
+/home/jm/wallschmart/modules/meteo-paris/wallschmart_meteo-paris
+/home/jm/wallschmart/modules/transilien-courbevoie/wallschmart_ratp-transilien-courbevoie
+/home/jm/wallschmart/modules/ratp-bus178-marceau/wallschmart_ratp-bus178-marceau
+wget http://static.meteo-paris.com/station/OutsideTempHistory.gif -O /home/jm/wallschmart/output/OutsideTempHistory.gif --user-agent="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 14.9; rv:32.0) Gecko/20150101 Firefox/32.0"
+/home/jm/wallschmart/publish

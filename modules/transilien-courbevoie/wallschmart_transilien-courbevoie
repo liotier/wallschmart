@@ -3,6 +3,9 @@
 # Script conventional name is wallschmart_modulename
 selfname=`basename "$0" | sed s/wallschmart_//`
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
 rm -f "$selfname"_raw.html "$selfname"_ISO-8859-15.html "$selfname".html "$selfname".png "$selfname"_crop1.png "$selfname"_crop2.png
 
 wget -q -O "$selfname"_raw.html http://www.transilien.com/gare/COURBEVOIE-8738220
