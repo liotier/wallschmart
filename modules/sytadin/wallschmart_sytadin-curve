@@ -1,0 +1,2 @@
+#!/bin/bash
+wget http://www.sytadin.fr/courbes/indiceCumulBouchon/cumulBouchon_1.png -O ../../output/sytadin-curve.png

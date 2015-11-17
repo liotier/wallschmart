@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Script conventional name is wallschmart_modulename
+selfname=`basename "$0" | sed s/wallschmart_//`
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
+# Copy of http://m.sytadin.fr stored locally
+# Pruned Openlayers controls we don't need
+xvfb-run wkhtmltoimage --width 1600 --format PNG sytadin.html sytadin-map_raw.png
+convert sytadin-map_raw.png -crop 1024x1024+0+137 +repage ../../output/sytadin-map.png

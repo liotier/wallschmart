@@ -1,2 +1,3 @@
 #!/bin/bash
-scp /home/jm/wallschmart/output/* wallschmart@hornwall.liotier.net:/home/wallschmart/output
+cd /home/jm/wallschmart/output
+scp sytadin-map.png sytadin-curve.png meteo-paris+OutsideTempHistory.png meteo-paris-previsions.png ratp-bus178-marceau+transilien-courbevoie.png wallschmart@hornwall.liotier.net:/home/wallschmart/output
