@@ -1,10 +1,10 @@
 while true;
         do
                 inotifywait -qq -e modify /home/jm/wallschmart/output 
+		date
                 # Wait until all files have been transmitted - not just the first one
-                date
                 sleep 3
-                killall fbi
+		killall fbi
                 fbi -T 1 -d /dev/fb0 --noverbose -t 6 --cachemem 0 output/*
         done
 
