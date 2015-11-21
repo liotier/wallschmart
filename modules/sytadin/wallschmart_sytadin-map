@@ -59,6 +59,8 @@ fi
 
 rm -f tiles/bouchons*
 
+# Ze zecret sauce: the path to latest traffic overlay contains an obfuscated serial number
+# The heap of Javascript in Sytadin's official displays gets it by submitting Unix epoch milliseconds to this service
 zedate=`date +%s`000
 zeserial=`wget -q http://www3.sytadin.fr/carto/dynamique/cartoTempsReel.json?_=$zedate -O - | cut -c 13-20`
 
