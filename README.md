@@ -1,6 +1,6 @@
 Wallschmart
 ======
-Wallschmart fetches pages to render them as images. I wrote it to produce images suitable to display in a connected digital picture frame (actually a Raspberry Pi with an elderly monitor savec from a trash heap) as ghetto domestic signage.
+Wallschmart fetches pages to render them as images. I wrote it to produce images suitable to display in a connected digital picture frame (actually a Raspberry Pi with an elderly monitor saved from a trash heap) as ghetto domestic signage.
 
 Why ? Because I want the display device to remain as stupid as possible - so its input has to be static images and something has to generate them... Wallschmart !
 
