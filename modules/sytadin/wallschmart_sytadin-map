@@ -1,12 +1,104 @@
 #!/bin/bash
 
+
 # Script conventional name is wallschmart_modulename
 selfname=`basename "$0" | sed s/wallschmart_//`
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-# Copy of http://m.sytadin.fr stored locally
-# Pruned Openlayers controls we don't need
-xvfb-run wkhtmltoimage --width 1600 --format PNG sytadin.html sytadin-map_raw.png
-convert sytadin-map_raw.png -crop 1024x1024+0+137 +repage ../../output/sytadin-map.png
+# Select tile range - bottom left to top right
+xmin=8
+xmax=12
+ymin=10
+ymax=14
+
+mkdir -p tiles
+
+for x in $(seq $xmin $xmax); do
+    for y in $(seq $ymin $ymax); do
+        if [ $x -lt 10 ]
+        then
+                zerox="0"$x
+        else
+                zerox=$x
+        fi
+        if [ $y -lt 10 ]
+        then
+                zeroy="0"$y
+        else
+                zeroy=$y
+        fi
+        tileurl=http://www2.sytadin.fr/carto/statique/tms/1.0.0/fond//2/$x/$y.png
+        tilefile=tiles/fonds-$zerox-$zeroy.png
+	if [ ! -s $tilefile ]; then
+	        wget -q $tileurl -O $tilefile
+	fi
+    done
+done
+
+if [ ! -s sytadin-fonds.png  ]; then
+montage -geometry +0+0 -tile x5 `for y in $(seq $ymax -1 $ymin); do
+    for x in $(seq $xmin $xmax); do
+        if [ $x -lt 10 ]
+        then
+                zerox="0"$x
+        else
+                zerox=$x
+        fi
+        if [ $y -lt 10 ]
+        then
+                zeroy="0"$y
+        else
+                zeroy=$y
+        fi
+        echo tiles/fonds-$zerox-$zeroy.png
+    done
+done` sytadin-fonds.png
+fi
+
+rm -f tiles/bouchons*
+
+zedate=`date +%s`000
+zeserial=`wget -q http://www3.sytadin.fr/carto/dynamique/cartoTempsReel.json?_=$zedate -O - | cut -c 13-20`
+
+for x in $(seq $xmin $xmax); do
+    for y in $(seq $ymin $ymax); do
+	if [ $x -lt 10 ]
+	then
+		zerox="0"$x
+	else
+		zerox=$x
+	fi
+        if [ $y -lt 10 ]
+        then
+		zeroy="0"$y
+        else
+		zeroy=$y
+	fi
+	tileurl=http://www2.sytadin.fr/carto/dynamique/$zeserial/tms/1.0.0/bouchons/2/$x/$y.png
+	tilefile=tiles/bouchons-$zerox-$zeroy.png
+        wget -q $tileurl -O $tilefile
+    done
+done
+
+montage -geometry +0+0 -tile x5 `for y in $(seq $ymax -1 $ymin); do
+    for x in $(seq $xmin $xmax); do
+        if [ $x -lt 10 ]
+        then
+                zerox="0"$x
+        else
+                zerox=$x
+        fi
+        if [ $y -lt 10 ]
+        then
+                zeroy="0"$y
+        else
+                zeroy=$y
+        fi
+        echo tiles/bouchons-$zerox-$zeroy.png
+    done
+done` sytadin-bouchons.png
+
+convert sytadin-bouchons.png -transparent white sytadin-bouchons-transparent.png
+composite -verbose sytadin-bouchons-transparent.png sytadin-fonds.png ../../output/sytadin-map.png

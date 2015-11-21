@@ -1,2 +1,6 @@
 #!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
 wget http://www.sytadin.fr/courbes/indiceCumulBouchon/cumulBouchon_1.png -O ../../output/sytadin-curve.png

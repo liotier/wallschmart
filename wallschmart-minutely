@@ -1,9 +1,8 @@
 /home/jm/wallschmart/modules/sytadin/wallschmart_sytadin-map
-get http://static.meteo-paris.com/station/OutsideTempHistory.gif -O /home/jm/wallschmart/output/OutsideTempHistory.gif --user-agent="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 14.9; rv:32.0) Gecko/20150101 Firefox/32.0"
-cd /home/jm/wallschmart/output
-montage meteo-paris.png OutsideTempHistory.gif -geometry x376\> -tile 1x2 meteo-paris+OutsideTempHistory.png
+/home/jm/wallschmart/modules/sytadin/wallschmart_sytadin-curve
+wget http://static.meteo-paris.com/station/OutsideTempHistory.gif -O /home/jm/wallschmart/output/OutsideTempHistory.gif --user-agent="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 14.9; rv:32.0) Gecko/20150101 Firefox/32.0"
+montage /home/jm/wallschmart/output/meteo-paris.png /home/jm/wallschmart/output/OutsideTempHistory.gif -geometry x376\> -tile 1x2 /home/jm/wallschmart/output/meteo-paris+OutsideTempHistory.png
 /home/jm/wallschmart/modules/transilien-courbevoie/wallschmart_transilien-courbevoie
 /home/jm/wallschmart/modules/ratp-bus178-marceau/wallschmart_ratp-bus178-marceau
-cd /home/jm/wallschmart/output
-montage ratp-bus178-marceau.png transilien-courbevoie.png -geometry x295x\> -tile 1x2 ratp-bus178-marceau+transilien-courbevoie.png
+montage /home/jm/wallschmart/output/ratp-bus178-marceau.png /home/jm/wallschmart/output/transilien-courbevoie.png -geometry x295x\> -tile 1x2 /home/jm/wallschmart/output/ratp-bus178-marceau+transilien-courbevoie.png
 /home/jm/wallschmart/publish
