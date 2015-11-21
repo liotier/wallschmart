@@ -1,9 +1,5 @@
 #!/bin/bash
 
-
-# Script conventional name is wallschmart_modulename
-selfname=`basename "$0" | sed s/wallschmart_//`
-
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
