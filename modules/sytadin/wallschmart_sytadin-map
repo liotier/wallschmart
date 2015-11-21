@@ -34,6 +34,7 @@ for x in $(seq $xmin $xmax); do
 done
 
 if [ ! -s sytadin-fonds.png  ]; then
+# TODO remove hardcoded tile geometry - should be square root of number of tiles
 montage -geometry +0+0 -tile x5 `for y in $(seq $ymax -1 $ymin); do
     for x in $(seq $xmin $xmax); do
         if [ $x -lt 10 ]
@@ -80,6 +81,7 @@ for x in $(seq $xmin $xmax); do
     done
 done
 
+# TODO remove hardcoded tile geometry - should be square root of number of tiles
 montage -geometry +0+0 -tile x5 `for y in $(seq $ymax -1 $ymin); do
     for x in $(seq $xmin $xmax); do
         if [ $x -lt 10 ]
