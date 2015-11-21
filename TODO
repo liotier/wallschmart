@@ -1,3 +1,4 @@
 - Too many absolute paths, unworthy of published code... Gotta clean that up !
+- Put all configurable paths in a configuration file
 - The meteo-Paris temperature chart is dirtily included in the main script... Put that in a module !
 - More modules !
